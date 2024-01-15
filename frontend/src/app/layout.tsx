@@ -12,8 +12,8 @@ const fontSans = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "Next.js Starter",
-  description: "A Next.js starter for Firebase with Tailwind CSS and TypeScript. Stripe intregration included. Shadcn/ui for UI components.",
+  title: "letsgho.xyz",
+  description: "Web3 Stripe",
 };
 
 export default function RootLayout({
