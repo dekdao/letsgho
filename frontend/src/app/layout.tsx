@@ -1,42 +1,25 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
 import "@/styles/globals.css";
 import { cn } from "@/lib/utils";
 import { Providers } from "./providers";
 import GoogleAnalytics from "./GoogleAnalytics";
 import Hotjar from "./Hotjar";
 
-const fontSans = Inter({
-  subsets: ["latin"],
-  variable: "--font-sans",
-});
+import { GeistSans } from "geist/font/sans";
 
 export const metadata: Metadata = {
   title: "letsgho.xyz",
-  description: "Web3 Stripe",
+  description: "Web3 Stripe"
 };
 
-export default function RootLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
-      <body
-        className={cn(
-          "min-h-screen bg-background font-sans antialiased",
-          fontSans.variable
-        )}
-      >
+      <body className={cn("min-h-screen bg-background font-sans antialiased", GeistSans.variable)}>
         {process.env.NEXT_PUBLIC_FIREBASE_MEASUREMENT_ID ? (
-          <GoogleAnalytics
-            ga_id={process.env.NEXT_PUBLIC_FIREBASE_MEASUREMENT_ID}
-          />
+          <GoogleAnalytics ga_id={process.env.NEXT_PUBLIC_FIREBASE_MEASUREMENT_ID} />
         ) : null}
-        {process.env.NEXT_PUBLIC_HOTJAR_ID ? (
-          <Hotjar hjid={process.env.NEXT_PUBLIC_HOTJAR_ID} />
-        ) : null}
+        {process.env.NEXT_PUBLIC_HOTJAR_ID ? <Hotjar hjid={process.env.NEXT_PUBLIC_HOTJAR_ID} /> : null}
         <Providers>{children}</Providers>
       </body>
     </html>
