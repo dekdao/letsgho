@@ -25,7 +25,6 @@ const handler = async (req: ExtendedNextApiRequest, res: NextApiResponse) => {
     const imageUrl = await uploadBase64(image, productImagePath);
 
     await productRef.set({
-      id,
       name,
       description,
       price,

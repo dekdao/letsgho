@@ -6,18 +6,12 @@ import { useState } from "react";
 import { LuArrowLeft } from "react-icons/lu";
 import { LoadingSpinner } from "../ui/loading-spinner";
 
-// Make sure that this component is wrapped with ConnectKitProvider
-const MyComponent = () => {
-  const { address, isConnecting, isDisconnected } = useAccount();
-  if (isConnecting) return <div>Connecting...</div>;
-  if (isDisconnected) return <div>Disconnected</div>;
-  return <div>Connected Wallet: {address}</div>;
-};
 export function PaymentDetail() {
   const { address, isConnecting, isReconnecting } = useAccount();
   const [mode, setMode] = useState<"default" | "letsgho" | "gho" | "aave">("default");
+
   return (
-    <>
+    <div>
       <div className="flex justify-end">
         <ConnectKitButton />
       </div>
@@ -39,7 +33,7 @@ export function PaymentDetail() {
                 </p>
               </div>
               <Button className="w-[40%] py-8 bg-green-400" onClick={() => setMode("letsgho")}>
-                Let's GHO Wallet
+                Lets GHO Wallet
               </Button>
               <Button className="w-[40%]" onClick={() => setMode("gho")}>
                 Pay with $GHO
@@ -59,7 +53,7 @@ export function PaymentDetail() {
                 }}
               />
 
-              <p className="text-lg my-[30px] lg:text-xl font-medium leading-none text-center">Let's GHO Wallet</p>
+              <p className="text-lg my-[30px] lg:text-xl font-medium leading-none text-center">Lets GHO Wallet</p>
             </div>
           )}
 
@@ -90,6 +84,6 @@ export function PaymentDetail() {
           )}
         </div>
       )}
-    </>
+    </div>
   );
 }

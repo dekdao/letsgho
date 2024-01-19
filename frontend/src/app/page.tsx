@@ -11,11 +11,11 @@ export default function Home() {
         <div className="container flex max-w-[64rem] flex-col items-center gap-4 text-center">
           <h1 className="font-heading text-3xl sm:text-5xl md:text-6xl lg:text-7xl">letsgho.xyz</h1>
           <p className="max-w-[42rem] leading-normal text-muted-foreground sm:text-xl sm:leading-8">
-            VISA of web3 - The future of crpyto payment
+            An on-chain payment processor which supports both Credit and Debit payment powered by GHO
           </p>
           <div className="space-x-4">
             <Link href="/#get-started" className={cn(buttonVariants({ size: "lg" }))}>
-              Get Start as merchant
+              Get Started
             </Link>
           </div>
         </div>
