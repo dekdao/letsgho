@@ -8,14 +8,16 @@ import { LoadingSpinner } from "../ui/loading-spinner";
 import { LetsGhoPayTab } from "./letsgho-pay-tab";
 import { GhoPayTab } from "./gho-pay-tab";
 import { AaveCreditPayTab } from "./aave-credit-pay-tab";
+import ChangeThemeButton from "../layouts/change-theme-button";
 
 export function PaymentDetail() {
   const { address, isConnecting, isReconnecting } = useAccount();
   const [mode, setMode] = useState<"default" | "letsgho" | "gho" | "aave">("default");
 
   return (
-    <div>
-      <div className="flex justify-end">
+    <div className="h-[100%]">
+      <div className="flex justify-end gap-4">
+        <ChangeThemeButton />
         <ConnectKitButton />
       </div>
       {!address && (isConnecting || isReconnecting) && (
@@ -57,7 +59,9 @@ export function PaymentDetail() {
                   }}
                 />
 
-                <p className="text-lg my-[30px] lg:text-xl font-medium leading-none text-center">{"Let's GHO Wallet"}</p>
+                <p className="text-lg my-[30px] lg:text-xl font-medium leading-none text-center">
+                  {"Let's GHO Wallet"}
+                </p>
               </div>
               <LetsGhoPayTab />
             </>
