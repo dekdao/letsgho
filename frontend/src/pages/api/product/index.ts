@@ -1,5 +1,4 @@
 import admin from "@/lib/firebase-admin";
-import { NextApiRequestWithUser, firebaseAuth } from "@/middlewares/auth";
 import type { NextApiResponse, NextApiRequest } from "next";
 
 interface ExtendedNextApiRequest extends NextApiRequest {
@@ -25,4 +24,4 @@ async function handler(req: ExtendedNextApiRequest, res: NextApiResponse) {
   }
 }
 
-export default firebaseAuth(handler);
+export default handler;
