@@ -14,7 +14,7 @@ export default function Home() {
             An on-chain payment processor which supports both Credit and Debit payment powered by GHO
           </p>
           <div className="space-x-4">
-            <Link href="/#get-started" className={cn(buttonVariants({ size: "lg" }))}>
+            <Link href="/user" className={cn(buttonVariants({ size: "lg" }))}>
               Get Started
             </Link>
           </div>
