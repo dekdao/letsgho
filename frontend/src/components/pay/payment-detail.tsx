@@ -5,6 +5,9 @@ import { Button } from "../ui/button";
 import { useState } from "react";
 import { LuArrowLeft } from "react-icons/lu";
 import { LoadingSpinner } from "../ui/loading-spinner";
+import { LetsGhoPayTab } from "./letsgho-pay-tab";
+import { GhoPayTab } from "./gho-pay-tab";
+import { AaveCreditPayTab } from "./aave-credit-pay-tab";
 
 export function PaymentDetail() {
   const { address, isConnecting, isReconnecting } = useAccount();
@@ -32,55 +35,64 @@ export function PaymentDetail() {
                   Choose your payment type...
                 </p>
               </div>
-              <Button className="w-[40%] py-8 bg-green-400" onClick={() => setMode("letsgho")}>
-                Lets GHO Wallet
+              <Button className="w-[50%] py-8 bg-green-400" onClick={() => setMode("letsgho")}>
+                {"Let's GHO Wallet"}
               </Button>
-              <Button className="w-[40%]" onClick={() => setMode("gho")}>
+              <Button className="w-[50%]" onClick={() => setMode("gho")}>
                 Pay with $GHO
               </Button>
-              <Button className="w-[40%]" onClick={() => setMode("aave")}>
+              <Button className="w-[50%]" onClick={() => setMode("aave")}>
                 AAVE credit
               </Button>
             </>
           )}
 
           {mode === "letsgho" && (
-            <div className="flex items-center justify-center w-full relative">
-              <LuArrowLeft
-                className="absolute w-[20px] h-[20px] bg-transparent black left-0"
-                onClick={() => {
-                  setMode("default");
-                }}
-              />
+            <>
+              <div className="flex items-center justify-center w-full relative">
+                <LuArrowLeft
+                  className="absolute w-[20px] h-[20px] bg-transparent black left-0"
+                  onClick={() => {
+                    setMode("default");
+                  }}
+                />
 
-              <p className="text-lg my-[30px] lg:text-xl font-medium leading-none text-center">Lets GHO Wallet</p>
-            </div>
+                <p className="text-lg my-[30px] lg:text-xl font-medium leading-none text-center">{"Let's GHO Wallet"}</p>
+              </div>
+              <LetsGhoPayTab />
+            </>
           )}
 
           {mode === "gho" && (
-            <div className="flex items-center justify-center w-full relative">
-              <LuArrowLeft
-                className="absolute w-[20px] h-[20px] bg-transparent black left-0"
-                onClick={() => {
-                  setMode("default");
-                }}
-              />
+            <>
+              <div className="flex items-center justify-center w-full relative">
+                <LuArrowLeft
+                  className="absolute w-[20px] h-[20px] bg-transparent black left-0"
+                  onClick={() => {
+                    setMode("default");
+                  }}
+                />
 
-              <p className="text-lg my-[30px] lg:text-xl font-medium leading-none text-center">Pay with $GHO</p>
-            </div>
+                <p className="text-lg my-[30px] lg:text-xl font-medium leading-none text-center">Pay with $GHO</p>
+              </div>
+              <GhoPayTab />
+            </>
           )}
 
           {mode === "aave" && (
-            <div className="flex items-center justify-center w-full relative">
-              <LuArrowLeft
-                className="absolute w-[20px] h-[20px] bg-transparent black left-0"
-                onClick={() => {
-                  setMode("default");
-                }}
-              />
+            <>
+              <div className="flex items-center justify-center w-full relative">
+                <LuArrowLeft
+                  className="absolute w-[20px] h-[20px] bg-transparent black left-0"
+                  onClick={() => {
+                    setMode("default");
+                  }}
+                />
 
-              <p className="text-lg my-[30px] lg:text-xl font-medium leading-none text-center">AAVE credit</p>
-            </div>
+                <p className="text-lg my-[30px] lg:text-xl font-medium leading-none text-center">AAVE credit</p>
+              </div>
+              <AaveCreditPayTab />
+            </>
           )}
         </div>
       )}
