@@ -36,7 +36,7 @@ export function CollateralTable() {
             <TableCell>
               {collateral.amount} {collateral.currency}
             </TableCell>
-            <TableCell className="text-right">{collateral.value} $</TableCell>
+            <TableCell className="text-right">$ {collateral.value}</TableCell>
           </TableRow>
         ))}
       </TableBody>
@@ -44,7 +44,7 @@ export function CollateralTable() {
         <TableRow>
           <TableCell colSpan={3}>Total</TableCell>
           <TableCell className="text-right">
-            {collaterals.reduce((accumulator, collateral) => accumulator + collateral.value, 0)} $
+            $ {collaterals.reduce((accumulator, collateral) => accumulator + collateral.value, 0)}
           </TableCell>
         </TableRow>
       </TableFooter>

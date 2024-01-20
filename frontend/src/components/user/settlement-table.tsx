@@ -39,8 +39,8 @@ export function SettlementTable() {
         {settlements.map((settlement) => (
           <TableRow key={settlement.id}>
             <TableCell>{settlement.date}</TableCell>
-            <TableCell className="font-medium">{settlement.amount} $</TableCell>
-            <TableCell className="font-medium">{settlement.interest} $</TableCell>
+            <TableCell className="font-medium">$ {settlement.amount}</TableCell>
+            <TableCell className="font-medium">$ {settlement.interest}</TableCell>
             <TableCell>{settlement.status}</TableCell>
             <TableCell>{settlement.paymentDue}</TableCell>
             <TableCell>
@@ -54,9 +54,9 @@ export function SettlementTable() {
       <TableFooter>
         <TableRow>
           <TableCell>Total</TableCell>
-          <TableCell>{settlements.reduce((accumulator, settlement) => accumulator + settlement.amount, 0)} $</TableCell>
+          <TableCell>$ {settlements.reduce((accumulator, settlement) => accumulator + settlement.amount, 0)}</TableCell>
           <TableCell colSpan={4}>
-            {settlements.reduce((accumulator, settlement) => accumulator + settlement.interest, 0)} $
+            $ {settlements.reduce((accumulator, settlement) => accumulator + settlement.interest, 0)}
           </TableCell>
         </TableRow>
       </TableFooter>

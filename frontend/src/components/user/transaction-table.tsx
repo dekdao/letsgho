@@ -45,7 +45,7 @@ export function TransactionTable() {
             <TableCell>{transaction.date}</TableCell>
             <TableCell>{transaction.product}</TableCell>
             <TableCell>{transaction.store}</TableCell>
-            <TableCell>{transaction.amount} $</TableCell>
+            <TableCell>$ {transaction.amount}</TableCell>
             <TableCell className="text-right">{transaction.status}</TableCell>
           </TableRow>
         ))}
@@ -54,12 +54,12 @@ export function TransactionTable() {
         <TableRow>
           <TableCell colSpan={3}>Total</TableCell>
           <TableCell colSpan={2}>
+            ${" "}
             {transactions.reduce(
               (accumulator, transaction) =>
                 transaction.status === "refunded" ? accumulator : accumulator + transaction.amount,
               0
-            )}{" "}
-            $
+            )}
           </TableCell>
         </TableRow>
       </TableFooter>
