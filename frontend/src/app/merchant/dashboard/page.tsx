@@ -1,8 +1,10 @@
 "use client";
 
 import HomeLayout from "@/components/layouts/home-layout";
+import { CreateProductDialog } from "@/components/merchant/create-product-dialog";
 import { ProductTable } from "@/components/merchant/product-table";
-import { Button } from "@/components/ui/button";
+import { Button, buttonVariants } from "@/components/ui/button";
+import { Dialog, DialogTrigger } from "@radix-ui/react-dialog";
 import { ConnectKitButton } from "connectkit";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
@@ -29,7 +31,10 @@ export default function Home() {
           <div>
             <div className="flex flex-row justify-between items-center">
               <h1 className="text-2xl font-bold font-heading text-start w-[100%] my-4">Products</h1>
-              <Button size="sm">Create Product</Button>
+              <Dialog>
+                <DialogTrigger className={`${buttonVariants({ size: "sm" })}`}>Create Product</DialogTrigger>
+                <CreateProductDialog />
+              </Dialog>
             </div>
             <ProductTable />
           </div>
