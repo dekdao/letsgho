@@ -47,6 +47,8 @@ export const CreateProductDialog = ({
   } = useForm<FormInterface>();
 
   const { address } = useAccount();
+  const [isOpen, setIsOpen] = useState(false);
+
   const onSubmit = async (data: FormInterface) => {
     if (!address) return;
     const base64 = await convertBase64(data.image[0]);
@@ -60,8 +62,8 @@ export const CreateProductDialog = ({
       price: data.price
     });
     onSuccess?.(res.data.id);
+    setIsOpen(false);
   };
-  const [isOpen, setIsOpen] = useState(false);
 
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>

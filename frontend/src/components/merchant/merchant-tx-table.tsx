@@ -14,7 +14,8 @@ export const MerchantTxTable = ({ txs }: { txs: Transaction[] }) => {
     <Table>
       <TableHeader>
         <TableRow>
-          <TableHead>Product Id</TableHead>
+          <TableHead>Id</TableHead>
+          <TableHead>Product</TableHead>
           <TableHead>Amount</TableHead>
           <TableHead>Status</TableHead>
           <TableHead>Customer</TableHead>
@@ -24,14 +25,18 @@ export const MerchantTxTable = ({ txs }: { txs: Transaction[] }) => {
       <TableBody>
         {txs.map((p) => (
           <TableRow key={p.id}>
-            <TableCell>{p.productId}</TableCell>
-            <TableCell className="font-medium">${p.amount}</TableCell>
+            <TableCell className="max-w-[20px] overflow-hidden">{p.id}</TableCell>
+            <TableCell className="flex flex-row gap-1 items-center">
+              <img src={p.product.imageUrl} className="rounded-full h-full max-w-8 aspect-square object-cover" />
+              <text>{p.product.name}</text>
+            </TableCell>
+            <TableCell className="font-medium">${p.product.price}</TableCell>
             <TableCell>
               <Badge className={cn(`bg-${STATUS_COLORS[p.status]}-500`, `hover:bg-${STATUS_COLORS[p.status]}-600`)}>
                 {p.status}
               </Badge>
             </TableCell>
-            <TableCell>{p.receiver.slice(0, 12)}</TableCell>
+            <TableCell>{p.payer.slice(0, 12)}</TableCell>
             <TableCell>{new Date(p.createdAt).toLocaleDateString("en-US")}</TableCell>
           </TableRow>
         ))}

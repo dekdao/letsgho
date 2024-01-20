@@ -23,15 +23,16 @@ export const ProductTable = ({ products }: { products: Product[] }) => {
       <TableBody>
         {products.map((p) => (
           <TableRow key={p.id}>
-            <TableCell>{p.id}</TableCell>
+            <TableCell className="max-w-[20px] overflow-hidden">{p.id}</TableCell>
             <TableCell className="flex flex-row gap-1 items-center">
-              <img src={p.imageUrl} className="w-fit rounded-full h-full" />
+              <img src={p.imageUrl} className="rounded-full h-full max-w-8 aspect-square object-cover" />
               <text>{p.name}</text>
             </TableCell>
             <TableCell className="font-medium">${p.price}</TableCell>
             <TableCell className="font-medium">{p.sold || 0}</TableCell>
             <TableCell className="flex flex-row gap-1 *:rounded-full">
               <Button
+                size="sm"
                 variant="outline"
                 onClick={() => {
                   window.navigator.clipboard.writeText(`${window.location.origin}/pay/${p.id}`);
@@ -44,7 +45,7 @@ export const ProductTable = ({ products }: { products: Product[] }) => {
                 <LuLink />
               </Button>
               <Dialog>
-                <DialogTrigger className={`${buttonVariants({ variant: "outline" })}`}>
+                <DialogTrigger className={`${buttonVariants({ variant: "outline", size: "sm" })}`}>
                   <LuQrCode />
                 </DialogTrigger>
                 <ProductQrCodeDialog id={p.id} />
