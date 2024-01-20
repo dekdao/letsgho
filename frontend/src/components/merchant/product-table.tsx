@@ -13,6 +13,7 @@ export const ProductTable = ({ products }: { products: Product[] }) => {
     <Table>
       <TableHeader>
         <TableRow>
+          <TableHead>Id</TableHead>
           <TableHead>Name</TableHead>
           <TableHead>Price</TableHead>
           <TableHead>Sold Amount</TableHead>
@@ -22,6 +23,7 @@ export const ProductTable = ({ products }: { products: Product[] }) => {
       <TableBody>
         {products.map((p) => (
           <TableRow key={p.id}>
+            <TableCell>{p.id}</TableCell>
             <TableCell className="flex flex-row gap-1 items-center">
               <img src={p.imageUrl} className="w-fit rounded-full h-full" />
               <text>{p.name}</text>

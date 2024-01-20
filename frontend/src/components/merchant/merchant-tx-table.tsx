@@ -9,24 +9,12 @@ export const STATUS_COLORS = {
   refunded: "red"
 } as const;
 
-export const MerchantTxTable = ({ txs: _ }: { txs: Transaction[] }) => {
-  const txs: Transaction[] = [
-    {
-      amount: 100,
-      productId: "1",
-      createdAt: new Date().toISOString(),
-      id: "1",
-      receiver: "0x123",
-      payer: "0x123",
-      signature: "0x123",
-      status: "unsettled"
-    }
-  ];
+export const MerchantTxTable = ({ txs }: { txs: Transaction[] }) => {
   return (
     <Table>
       <TableHeader>
         <TableRow>
-          <TableHead>Product</TableHead>
+          <TableHead>Product Id</TableHead>
           <TableHead>Amount</TableHead>
           <TableHead>Status</TableHead>
           <TableHead>Customer</TableHead>
