@@ -3,16 +3,35 @@ import { ConnectKitButton } from "connectkit";
 import { useAccount } from "wagmi";
 import { Button } from "../ui/button";
 import { useState } from "react";
-import { LuArrowLeft } from "react-icons/lu";
+import { LuArrowLeft, LuRefreshCw } from "react-icons/lu";
 import { LoadingSpinner } from "../ui/loading-spinner";
 import { LetsGhoPayTab } from "./letsgho-pay-tab";
 import { GhoPayTab } from "./gho-pay-tab";
 import { AaveCreditPayTab } from "./aave-credit-pay-tab";
 import ChangeThemeButton from "../layouts/change-theme-button";
+import axios from "axios";
+import { Product } from "@/interfaces/product";
 
-export function PaymentDetail() {
+export function PaymentDetail({ product }: { product: Product }) {
   const { address, isConnecting, isReconnecting } = useAccount();
   const [mode, setMode] = useState<"default" | "letsgho" | "gho" | "aave">("default");
+  const [isPaying, setIsPaying] = useState(false);
+
+  const mockPay = async () => {
+    setIsPaying(true);
+    axios
+      .post("/api/transaction/pay", {
+        payerAddress: address,
+        productId: product.id,
+        signature: "mock"
+      })
+      .then(() => {
+        setIsPaying(false);
+      })
+      .catch(() => {
+        setIsPaying(false);
+      });
+  };
 
   return (
     <div className="h-[100%]">
@@ -45,6 +64,14 @@ export function PaymentDetail() {
               </Button>
               <Button className="w-[50%]" onClick={() => setMode("aave")}>
                 AAVE credit
+              </Button>
+              <Button className="w-[50%]" onClick={mockPay} disabled={isPaying}>
+                {isPaying && (
+                  <>
+                    <LuRefreshCw className="mr-2 h-4 w-4 animate-spin" />{" "}
+                  </>
+                )}
+                Mock Pay
               </Button>
             </>
           )}

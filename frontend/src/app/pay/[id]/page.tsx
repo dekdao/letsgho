@@ -34,9 +34,7 @@ export default function Page({ params }: { params: { id: string } }) {
           )}
         </div>
         <Separator orientation="vertical" />
-        <div className="flex flex-col  gap-6 p-[5%] w-[50%]">
-          <PaymentDetail />
-        </div>
+        <div className="flex flex-col  gap-6 p-[5%] w-[50%]">{product && <PaymentDetail product={product} />}</div>
       </div>
     </div>
   );
