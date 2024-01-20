@@ -5,4 +5,5 @@ export interface Product {
   price: number;
   imageUrl: string;
   userAddress: string;
+  sold: number;
 }

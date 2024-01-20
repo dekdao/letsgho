@@ -16,8 +16,15 @@ async function handler(req: NextApiRequestWithUser, res: NextApiResponse) {
       return;
     }
 
+    const sold = fs.collection("transactions").where("productId", "==", id);
     const productData = product.data();
-    res.status(200).json({ message: "Success", data: productData });
+    res.status(200).json({
+      message: "Success",
+      data: {
+        ...productData,
+        sold: (await sold.get()).docs.length
+      }
+    });
   } catch (error) {
     res.status(500).json({ error: "Internal Server Error" });
   }
