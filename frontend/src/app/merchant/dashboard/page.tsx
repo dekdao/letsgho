@@ -3,19 +3,23 @@
 import { MockChart } from "@/components/common/mock-chart";
 import HomeLayout from "@/components/layouts/home-layout";
 import { CreateProductDialog } from "@/components/merchant/create-product-dialog";
+import { CreateWebhookDialog } from "@/components/merchant/create-webhook-dialog";
 import { MerchantTxTable } from "@/components/merchant/merchant-tx-table";
 import { ProductTable } from "@/components/merchant/product-table";
+import { WebhookTable } from "@/components/merchant/webhook-table";
 import { Badge } from "@/components/ui/badge";
 import { Button, buttonVariants } from "@/components/ui/button";
 import { DialogTrigger } from "@/components/ui/dialog";
 import { BASE_DENOM } from "@/constants/denom";
 import { Product } from "@/interfaces/product";
 import { Transaction } from "@/interfaces/transactions";
+import { Webhook } from "@/interfaces/webhook";
 import { cn } from "@/lib/utils";
 import axios from "axios";
 import { ConnectKitButton } from "connectkit";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
+import { LuPlus } from "react-icons/lu";
 import { useAccount } from "wagmi";
 
 export default function Home() {
@@ -24,6 +28,7 @@ export default function Home() {
 
   const [products, setProducts] = useState<Product[]>([]);
   const [transactions, setTransactions] = useState<Transaction[]>([]);
+  const [webhooks, setWebhooks] = useState<Webhook[]>([]);
 
   useEffect(() => {
     if (address) {
@@ -50,6 +55,12 @@ export default function Home() {
     const res = await axios.get(`/api/product/${id}`);
     const product = res.data.data;
     setProducts((products) => [...products, product]);
+  };
+
+  const fetchAndAddWebhook = async (id: string) => {
+    const res = await axios.get(`/api/webhook/${id}`);
+    const webhook = res.data.data;
+    setWebhooks((webhooks) => [...webhooks, webhook]);
   };
 
   return (
@@ -106,11 +117,26 @@ export default function Home() {
               </div>
             </div>
           </div>
+
+          <div>
+            <div className="flex flex-row justify-between items-center">
+              <h1 className="text-2xl font-bold font-heading text-start w-[100%] my-4">Webhook Endpoints</h1>
+              <CreateWebhookDialog onSuccess={fetchAndAddWebhook}>
+                <DialogTrigger className={`${buttonVariants({ size: "sm" })}`}>
+                  <LuPlus /> Add Endpoint
+                </DialogTrigger>
+              </CreateWebhookDialog>
+            </div>
+            <WebhookTable webhooks={webhooks} />
+          </div>
+
           <div>
             <div className="flex flex-row justify-between items-center">
               <h1 className="text-2xl font-bold font-heading text-start w-[100%] my-4">Products</h1>
               <CreateProductDialog onSuccess={fetchAndAddProduct}>
-                <DialogTrigger className={`${buttonVariants({ size: "sm" })}`}>Create Product</DialogTrigger>
+                <DialogTrigger className={`${buttonVariants({ size: "sm" })}`}>
+                  <LuPlus /> Create Product
+                </DialogTrigger>
               </CreateProductDialog>
             </div>
             <ProductTable products={products} />

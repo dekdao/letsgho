@@ -71,7 +71,7 @@ export const CreateProductDialog = ({
       <DialogContent>
         <form onSubmit={handleSubmit(onSubmit)}>
           <DialogHeader>
-            <DialogTitle>Create Product</DialogTitle>
+            <DialogTitle className="mb-2">Create Product</DialogTitle>
             <DialogDescription className="flex flex-col gap-2">
               <div className="flex items-center justify-center w-full">
                 <label className="flex flex-col items-center justify-center w-full h-64 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 dark:hover:bg-bray-800 dark:bg-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600 max-h-[250px]">
