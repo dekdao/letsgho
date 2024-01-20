@@ -20,7 +20,7 @@ async function handler(req: ExtendedNextApiRequest, res: NextApiResponse) {
       ...doc.data()
     }));
 
-    const receiverTransactionRef = fs.collection("transactions").where("receiver", "==", userAddress);
+    const receiverTransactionRef = fs.collection("transactions").where("product.userAddress", "==", userAddress);
     const receiverTransaction = await receiverTransactionRef.get();
     const receiverTransactionDatas = receiverTransaction.docs.map((doc) => ({
       id: doc.id,
