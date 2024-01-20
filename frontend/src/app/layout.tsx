@@ -6,6 +6,7 @@ import GoogleAnalytics from "./GoogleAnalytics";
 import Hotjar from "./Hotjar";
 
 import { GeistSans } from "geist/font/sans";
+import { Toaster } from "@/components/ui/toaster";
 
 export const metadata: Metadata = {
   title: "letsgho.xyz",
@@ -21,6 +22,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         ) : null}
         {process.env.NEXT_PUBLIC_HOTJAR_ID ? <Hotjar hjid={process.env.NEXT_PUBLIC_HOTJAR_ID} /> : null}
         <Providers>{children}</Providers>
+        <Toaster />
       </body>
     </html>
   );

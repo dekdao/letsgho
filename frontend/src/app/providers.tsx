@@ -13,6 +13,7 @@ export function Providers({ children }: { children: React.ReactNode }) {
   return (
     <WagmiConfig config={config}>
       <ConnectKitProvider
+        mode="auto"
         customTheme={{
           "--ck-font-family": "var(--font-geist-sans)"
         }}
