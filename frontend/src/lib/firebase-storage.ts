@@ -9,19 +9,27 @@ export async function uploadBase64(image: string, path: string) {
   let buffer: Buffer;
   if (image.startsWith("http")) {
     const response = await axios.get(image, {
-      responseType: "arraybuffer", // Important for binary data
+      responseType: "arraybuffer" // Important for binary data
     });
-    if (!response.data)
-      throw new Error("Failed to fetch the image from the URL");
+    if (!response.data) throw new Error("Failed to fetch the image from the URL");
     buffer = Buffer.from(response.data, "binary");
   } else {
-    buffer = Buffer.from(image, "base64");
+    buffer = Buffer.from(
+      image
+        .replace("data:image/png;base64,", "")
+        .replace("data:image/jpeg;base64,", "")
+        .replace("data:image/gif;base64,", "")
+        .replace("data:image/svg+xml;base64,", "")
+        .replace("data:image/webp;base64,", "")
+        .replace("data:image/apng;base64,", ""),
+      "base64"
+    );
   }
   const blob = bucket.file(path);
   await blob.save(buffer, {
     metadata: {
-      contentType: "image/jpeg",
-    },
+      contentType: "image/jpeg"
+    }
   });
   return `${bucketUrlPath}/${path}`;
 }
