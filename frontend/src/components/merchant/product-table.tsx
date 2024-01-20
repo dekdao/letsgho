@@ -6,21 +6,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from 
 import QrSvg from "@wojtekmaj/react-qr-svg";
 import { useToast } from "../ui/use-toast";
 
-const products: (Product & {
-  sold: number;
-})[] = [
-  {
-    name: "pornhub premium 1month",
-    price: 10,
-    id: "12345",
-    sold: 100,
-    description: "b ruh",
-    imageUrl: "",
-    userAddress: "0x12345"
-  }
-];
-
-export const ProductTable = () => {
+export const ProductTable = ({ products }: { products: Product[] }) => {
   const { toast } = useToast();
 
   return (
@@ -36,9 +22,12 @@ export const ProductTable = () => {
       <TableBody>
         {products.map((p) => (
           <TableRow key={p.id}>
-            <TableCell>{p.name}</TableCell>
+            <TableCell className="flex flex-row gap-1 items-center">
+              <img src={p.imageUrl} className="w-fit rounded-full h-full" />
+              <text>{p.name}</text>
+            </TableCell>
             <TableCell className="font-medium">${p.price}</TableCell>
-            <TableCell className="font-medium">${p.sold}</TableCell>
+            <TableCell className="font-medium">{p.sold || 0}</TableCell>
             <TableCell className="flex flex-row gap-1 *:rounded-full">
               <Button
                 variant="outline"
