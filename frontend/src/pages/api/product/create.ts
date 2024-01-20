@@ -32,7 +32,7 @@ const handler = async (req: ExtendedNextApiRequest, res: NextApiResponse) => {
       userAddress
     });
 
-    res.status(200).json({ message: "Success" });
+    res.status(200).json({ id, message: "Success" });
   } catch (error) {
     res.status(500).json({ error: "Internal Server Error" });
   }
