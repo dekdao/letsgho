@@ -1,7 +1,7 @@
 import { Transaction } from "@/interfaces/transactions";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "../ui/table";
 import { Badge } from "../ui/badge";
-import { cn } from "@/lib/utils";
+import { cn, formatDateJsonToObject } from "@/lib/utils";
 
 export const STATUS_COLORS = {
   settled: "green",
@@ -37,7 +37,7 @@ export const MerchantTxTable = ({ txs }: { txs: Transaction[] }) => {
               </Badge>
             </TableCell>
             <TableCell>{p.payer.slice(0, 12)}</TableCell>
-            <TableCell>{new Date(p.createdAt).toLocaleDateString("en-US")}</TableCell>
+            <TableCell>{formatDateJsonToObject(p.createdAt).toLocaleString()}</TableCell>
           </TableRow>
         ))}
       </TableBody>
