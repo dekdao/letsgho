@@ -33,6 +33,7 @@ const handler = async (req: ExtendedNextApiRequest, res: NextApiResponse) => {
       signature,
       createdAt: admin.firestore.FieldValue.serverTimestamp(),
       status: "unsettled",
+      productId: productRef.id,
       product: productData
     });
 

@@ -6,5 +6,6 @@ export interface Transaction {
   signature: string;
   createdAt: any;
   status: "settled" | "unsettled" | "refunded";
+  productId: string;
   product: Product;
 }
