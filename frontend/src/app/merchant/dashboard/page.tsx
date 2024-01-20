@@ -2,10 +2,12 @@
 
 import HomeLayout from "@/components/layouts/home-layout";
 import { CreateProductDialog } from "@/components/merchant/create-product-dialog";
+import { MerchantTxTable } from "@/components/merchant/merchant-tx-table";
 import { ProductTable } from "@/components/merchant/product-table";
-import { Button, buttonVariants } from "@/components/ui/button";
+import { buttonVariants } from "@/components/ui/button";
+import { DialogTrigger } from "@/components/ui/dialog";
 import { Product } from "@/interfaces/product";
-import { Dialog, DialogTrigger } from "@radix-ui/react-dialog";
+import { Transaction } from "@/interfaces/transactions";
 import axios from "axios";
 import { ConnectKitButton } from "connectkit";
 import { useRouter } from "next/navigation";
@@ -17,6 +19,7 @@ export default function Home() {
   const router = useRouter();
 
   const [products, setProducts] = useState<Product[]>([]);
+  const [transactions, setTransactions] = useState<Transaction[]>([]);
 
   useEffect(() => {
     if (address) {
@@ -27,10 +30,23 @@ export default function Home() {
         .then((res) => {
           setProducts(res.data.data);
         });
+      axios
+        .post("/api/transaction", {
+          userAddress: address
+        })
+        .then((res) => {
+          setTransactions(res.data.data.receiver);
+        });
     } else {
       router.push("/merchant");
     }
   }, [address]);
+
+  const fetchAndAddProduct = async (id: string) => {
+    const res = await axios.get(`/api/product/${id}`);
+    const product = res.data.data;
+    setProducts((products) => [...products, product]);
+  };
 
   return (
     <HomeLayout hideNav>
@@ -43,11 +59,16 @@ export default function Home() {
           <div>
             <div className="flex flex-row justify-between items-center">
               <h1 className="text-2xl font-bold font-heading text-start w-[100%] my-4">Products</h1>
-              <CreateProductDialog onSuccess={(id) => {}}>
+              <CreateProductDialog onSuccess={fetchAndAddProduct}>
                 <DialogTrigger className={`${buttonVariants({ size: "sm" })}`}>Create Product</DialogTrigger>
               </CreateProductDialog>
             </div>
             <ProductTable products={products} />
+          </div>
+
+          <div>
+            <h1 className="text-2xl font-bold font-heading text-start w-[100%] my-4">Transaction</h1>
+            <MerchantTxTable txs={transactions} />
           </div>
         </div>
       )}
