@@ -1,6 +1,7 @@
 import { Product } from "@/interfaces/product";
 import admin from "@/lib/firebase-admin";
 import type { NextApiResponse, NextApiRequest } from "next";
+import { sendWebhook } from "../webhook/send";
 
 interface ExtendedNextApiRequest extends NextApiRequest {
   body: {
@@ -35,6 +36,12 @@ const handler = async (req: ExtendedNextApiRequest, res: NextApiResponse) => {
       status: "unsettled",
       productId: productRef.id,
       product: productData
+    });
+
+    sendWebhook(productData.userAddress, "receive-payment", {
+      payerAddress,
+      productId,
+      signature
     });
 
     res.status(200).json({ message: "Success" });
