@@ -1,22 +1,28 @@
 import { buttonVariants } from "@/components/ui/button";
 import { Link } from "@/lib/router-events";
 import { cn } from "@/lib/utils";
-import { LuMessageCircle, LuRocket, LuBot, LuLink, LuPiggyBank } from "react-icons/lu";
+import { LuRocket, LuLink, LuPiggyBank } from "react-icons/lu";
 import HomeLayout from "@/components/layouts/home-layout";
+import Image from "next/image";
 
 export default function Home() {
   return (
     <HomeLayout>
       <section className="space-y-6 pb-8 pt-28 lg:py-32">
-        <div className="container flex max-w-[64rem] flex-col items-center gap-4 text-center">
-          <h1 className="font-heading text-3xl sm:text-5xl md:text-6xl lg:text-7xl">letsgho.xyz</h1>
-          <p className="max-w-[42rem] leading-normal text-muted-foreground sm:text-xl sm:leading-8">
-            An on-chain payment processor which supports both Credit and Debit payment powered by GHO
-          </p>
-          <div className="space-x-4">
-            <Link href="/#get-started" className={cn(buttonVariants({ size: "lg" }))}>
-              Get Started
-            </Link>
+        <div className="grid base:grid-cols-1 md:grid-cols-2">
+          <div className="container flex max-w-[64rem] flex-col base:items-center md:items-end justify-center gap-4 md:text-end base:text-center">
+            <h1 className="font-heading text-3xl sm:text-5xl md:text-6xl lg:text-7xl">letsgho.xyz</h1>
+            <p className="max-w-[42rem] leading-normal text-muted-foreground sm:text-xl sm:leading-8">
+              An on-chain payment processor which supports both<br/> Credit and Debit payment powered by GHO
+            </p>
+            <div className="space-x-4">
+              <Link href="/#get-started" className={cn(buttonVariants({ size: "lg" }))}>
+                Get Started
+              </Link>
+            </div>
+          </div>
+          <div className="w-full h-full flex items-center justify-center dark:invert">
+            <Image src="/landing-stickman.png" alt="landing stickman" width={700} height={700} />
           </div>
         </div>
       </section>
@@ -44,7 +50,7 @@ export default function Home() {
               <LuPiggyBank className="h-8 w-8" />
               <div className="space-y-2">
                 <h3 className="font-bold">Gasless, No Transaction Fees</h3>
-                <p className="text-sm">
+                <p className="text-sm text-muted-foreground">
                   Enjoy fee-free and gasless transactions, ensuring cost-effective and accessible digital payments.
                 </p>
               </div>
