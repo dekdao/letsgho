@@ -9,11 +9,14 @@ import axios from "axios";
 
 export default function Page({ params }: { params: { id: string } }) {
   const [product, setProduct] = useState<Product | null>(null);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
+    setLoading(true);
     axios.get("http://localhost:3000/api/product/" + params.id).then(({ data }) => {
       setProduct(data.data);
     });
+    setLoading(false);
   }, [params.id]);
 
   return (
@@ -26,6 +29,7 @@ export default function Page({ params }: { params: { id: string } }) {
               name={product.name}
               price={product.price}
               description={product.description}
+              loading={loading}
             />
           )}
         </div>
