@@ -17,7 +17,7 @@ export default function Home() {
               <br /> Credit and Debit payment powered by GHO
             </p>
             <div className="space-x-4">
-              <Link href="/#get-started" className={cn(buttonVariants({ size: "lg" }))}>
+              <Link href="/merchant/dashboard" className={cn(buttonVariants({ size: "lg" }))}>
                 Get Started
               </Link>
             </div>
