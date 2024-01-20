@@ -1,46 +1,47 @@
+import { cn } from "@/lib/utils";
 import { useTheme } from "next-themes";
 import { CartesianGrid, Line, LineChart, ResponsiveContainer, Tooltip } from "recharts";
 
 const data = [
   {
     revenue: 10400,
-    subscription: 240
+    projectedRevenue: 10000
   },
   {
     revenue: 14405,
-    subscription: 300
+    projectedRevenue: 16000
   },
   {
     revenue: 9400,
-    subscription: 200
+    projectedRevenue: 9000
   },
   {
     revenue: 8200,
-    subscription: 278
+    projectedRevenue: 8000
   },
   {
     revenue: 7000,
-    subscription: 189
+    projectedRevenue: 7000
   },
   {
     revenue: 9600,
-    subscription: 239
+    projectedRevenue: 12000
   },
   {
     revenue: 11244,
-    subscription: 278
+    projectedRevenue: 14000
   },
   {
     revenue: 26475,
-    subscription: 189
+    projectedRevenue: 25000
   }
 ];
 
-export const MockChart = () => {
+export const MockChart = ({ className }: { className?: string }) => {
   const { theme: mode } = useTheme();
 
   return (
-    <div className="w-full h-[200px]">
+    <div className={cn("w-full h-[200px]", className)}>
       <ResponsiveContainer width="100%" height="100%">
         <LineChart
           data={data}
@@ -51,6 +52,22 @@ export const MockChart = () => {
             bottom: 0
           }}
         >
+          <Line
+            type="monotone"
+            strokeWidth={2}
+            dataKey="projectedRevenue"
+            activeDot={{
+              r: 0,
+              style: { fill: "var(--theme-primary)", opacity: 0 }
+            }}
+            style={
+              {
+                stroke: "var(--theme-primary)",
+                opacity: 0.5,
+                "--theme-primary": `hsl(var(--destructive))`
+              } as React.CSSProperties
+            }
+          />
           <Line
             type="monotone"
             strokeWidth={2}

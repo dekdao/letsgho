@@ -5,10 +5,13 @@ import HomeLayout from "@/components/layouts/home-layout";
 import { CreateProductDialog } from "@/components/merchant/create-product-dialog";
 import { MerchantTxTable } from "@/components/merchant/merchant-tx-table";
 import { ProductTable } from "@/components/merchant/product-table";
+import { Badge } from "@/components/ui/badge";
 import { Button, buttonVariants } from "@/components/ui/button";
 import { DialogTrigger } from "@/components/ui/dialog";
+import { BASE_DENOM } from "@/constants/denom";
 import { Product } from "@/interfaces/product";
 import { Transaction } from "@/interfaces/transactions";
+import { cn } from "@/lib/utils";
 import axios from "axios";
 import { ConnectKitButton } from "connectkit";
 import { useRouter } from "next/navigation";
@@ -57,19 +60,51 @@ export default function Home() {
             <h1 className="font-bold font-heading text-2xl sm:text-3xl md:text-4xl">{address?.slice(0, 16)} Store</h1>
             <ConnectKitButton showBalance />
           </div>
-          <MockChart />
-          <div className="flex flex-wrap gap-x-4 gap-y-2 items-center">
-            {[
-              ["Gross Volume ($GHO)", 2000],
-              ["Last Period ($GHO)", 1000],
-              ["Current Period ($GHO)", 1000]
-            ].map((v, i) => (
-              <div key={i} className="flex flex-col w-fit">
-                <text className="font-bold text-2xl">{v[0]}</text>
-                <text className="text-xl">{v[1]}</text>
+          <div className="flex flex-row gap-4">
+            <div className="flex flex-col gap-4 w-full">
+              <div className="flex flex-row gap-12">
+                {[
+                  ["Gross Volume", 12000, "+12"],
+                  ["Yesterday", 2600, "-5"],
+                  ["Today", 3000]
+                ].map((item, i) => (
+                  <div className="flex flex-col w-fit" key={i}>
+                    <text className="flex items-center gap-2 text-muted-foreground">
+                      {item[0]} {item[2] && <Badge>{item[2]}%</Badge>}
+                    </text>
+                    <text className="font-semibold text-3xl">
+                      <span className="text-base">{BASE_DENOM}</span>
+                      {item[1]}
+                    </text>
+                  </div>
+                ))}
               </div>
-            ))}
-            <Button>Settle</Button>
+              <MockChart />
+            </div>
+            <div className="flex flex-col gap-4 w-[25%] min-w-[200px]">
+              <text className="text-3xl font-bold">Payouts</text>
+              <div className="flex flex-col gap-4">
+                {[
+                  [
+                    `${BASE_DENOM} Balance`,
+                    12500,
+                    "Available To Payout",
+                    "text-muted-foreground",
+                    <Button size="sm" variant="outline" className="mt-2">
+                      Claim
+                    </Button>
+                  ],
+                  [`${BASE_DENOM} Pending`, 3000, "Payout in 28 days", "text-destructive"]
+                ].map((item, i) => (
+                  <div className="flex flex-col w-fit" key={i}>
+                    <text className="flex items-center gap-2 text-muted-foreground">{item[0]}</text>
+                    <text className="font-semibold text-3xl">{item[1]}</text>
+                    <text className={cn(`text-sm font-semibold`, item[3])}>{item[2]}</text>
+                    {item[4]}
+                  </div>
+                ))}
+              </div>
+            </div>
           </div>
           <div>
             <div className="flex flex-row justify-between items-center">
