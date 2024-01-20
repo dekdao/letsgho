@@ -24,7 +24,9 @@ const handler = async (req: ExtendedNextApiRequest, res: NextApiResponse) => {
       receiver,
       amount,
       signature,
-      productId
+      productId,
+      createdAt: admin.firestore.FieldValue.serverTimestamp(),
+      status: "unsettled"
     });
 
     res.status(200).json({ message: "Success" });
