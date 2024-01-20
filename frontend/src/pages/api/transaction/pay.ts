@@ -1,28 +1,34 @@
+import { Product } from "@/interfaces/product";
 import admin from "@/lib/firebase-admin";
 import type { NextApiResponse, NextApiRequest } from "next";
 
 interface ExtendedNextApiRequest extends NextApiRequest {
   body: {
-    payer: string;
-    receiver: string;
-    amount: number; // usd
-    signature: string;
+    payerAddress: string;
     productId: string;
+    signature: string;
   };
 }
 
 const handler = async (req: ExtendedNextApiRequest, res: NextApiResponse) => {
   const fs = admin.firestore();
 
-  const { payer, receiver, amount, signature, productId } = req.body;
+  const { payerAddress, signature, productId } = req.body;
 
   try {
     const transactionRef = fs.collection("transactions").doc();
+    const productRef = await fs.collection("products").doc(productId).get();
 
+    if (!productRef.exists) {
+      res.status(404).json({ error: "Product not found" });
+      return;
+    }
+
+    const productData = productRef.data() as Product;
     await transactionRef.set({
-      payer,
-      receiver,
-      amount,
+      payer: payerAddress,
+      receiver: productData.userAddress,
+      amount: productData.price,
       signature,
       productId,
       createdAt: admin.firestore.FieldValue.serverTimestamp(),
