@@ -15,11 +15,17 @@ async function handler(req: ExtendedNextApiRequest, res: NextApiResponse) {
   try {
     const payerTransactionRef = fs.collection("transactions").where("payer", "==", userAddress);
     const payerTransaction = await payerTransactionRef.get();
-    const payerTransactionDatas = payerTransaction.docs.map((doc) => doc.data());
+    const payerTransactionDatas = payerTransaction.docs.map((doc) => ({
+      id: doc.id,
+      ...doc.data()
+    }));
 
     const receiverTransactionRef = fs.collection("transactions").where("receiver", "==", userAddress);
     const receiverTransaction = await receiverTransactionRef.get();
-    const receiverTransactionDatas = receiverTransaction.docs.map((doc) => doc.data());
+    const receiverTransactionDatas = receiverTransaction.docs.map((doc) => ({
+      id: doc.id,
+      ...doc.data()
+    }));
 
     res.status(200).json({
       message: "Success",

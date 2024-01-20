@@ -24,15 +24,16 @@ const handler = async (req: ExtendedNextApiRequest, res: NextApiResponse) => {
       return;
     }
 
-    const productData = productRef.data() as Product;
+    const productData = {
+      id: productRef.id,
+      ...productRef.data()
+    } as Product;
     await transactionRef.set({
       payer: payerAddress,
-      receiver: productData.userAddress,
-      amount: productData.price,
       signature,
-      productId,
       createdAt: admin.firestore.FieldValue.serverTimestamp(),
-      status: "unsettled"
+      status: "unsettled",
+      product: productData
     });
 
     res.status(200).json({ message: "Success" });

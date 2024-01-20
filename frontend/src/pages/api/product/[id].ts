@@ -16,13 +16,14 @@ async function handler(req: NextApiRequestWithUser, res: NextApiResponse) {
       return;
     }
 
-    const sold = fs.collection("transactions").where("productId", "==", id);
+    const sold = (await fs.collection("transactions").where("productId", "==", id).count().get()).data().count;
     const productData = product.data();
     res.status(200).json({
       message: "Success",
       data: {
+        id: product.id,
         ...productData,
-        sold: (await sold.get()).docs.length
+        sold
       }
     });
   } catch (error) {

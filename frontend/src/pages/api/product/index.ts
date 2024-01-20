@@ -16,7 +16,16 @@ async function handler(req: ExtendedNextApiRequest, res: NextApiResponse) {
     const productRef = fs.collection("products").where("userAddress", "==", userAddress);
     const product = await productRef.get();
 
-    const productDatas = product.docs.map((doc) => doc.data());
+    const productDatas = await Promise.all(
+      product.docs.map(async (doc) => {
+        const sold = (await fs.collection("transactions").where("productId", "==", doc.id).count().get()).data().count;
+        return {
+          id: doc.id,
+          ...doc.data(),
+          sold
+        };
+      })
+    );
 
     res.status(200).json({ message: "Success", data: productDatas });
   } catch (error) {
