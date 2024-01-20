@@ -1,15 +1,12 @@
 "use client";
-
-import ChangeThemeButton from "@/components/layouts/change-theme-button";
 import HomeLayout from "@/components/layouts/home-layout";
 import { buttonVariants } from "@/components/ui/button";
-import { TypographyH1, TypographyH2, TypographyH3, TypographyH4, TypographySmall } from "@/components/ui/typography";
-import { Link } from "@/lib/router-events";
 import { cn } from "@/lib/utils";
 import { ConnectKitButton } from "connectkit";
+import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
-import { LuCircleSlash2, LuCreditCard, LuDollarSign, LuLink, LuPiggyBank, LuRefreshCw, LuRocket } from "react-icons/lu";
+import { LuCircleSlash2, LuCreditCard, LuDollarSign, LuRefreshCw } from "react-icons/lu";
 import { useAccount } from "wagmi";
 
 export default function Home() {
@@ -20,19 +17,18 @@ export default function Home() {
     if (isConnected) {
       router.push("/merchant/dashboard");
     }
-  }, [isConnected]);
+  }, [isConnected, router]);
 
   return (
     <HomeLayout hideNav>
-      <section className="space-y-6 pb-8 pt-28 lg:py-32 h-full">
-        <div className="container flex max-w-[64rem] flex-col gap-4">
-          <h1 className="font-heading text-3xl sm:text-5xl md:text-6xl lg:text-7xl font-bold">Let's GHO Merchant</h1>
-
+      <section className="container relative md:px-56 space-y-6 pb-8 pt-28 min-h-[100vh] h-full w-full flex base:justify-center md:justify-start">
+        <div className="flex max-w-[50rem] flex-col gap-4">
+          <h1 className="font-heading text-3xl sm:text-5xl md:text-6xl lg:text-7xl font-bold">Lets GHO Merchant</h1>
           <div className="flex flex-wrap gap-x-4 gap-y-2">
             {[
-              [<LuDollarSign />, "Gasless Payment"],
-              [<LuCreditCard />, "Credit-Debit Support"],
-              [<LuCircleSlash2 />, "Zero Fees And Zero Interest Period"]
+              [<LuDollarSign key={1} />, "Gasless Payment"],
+              [<LuCreditCard key={2} />, "Credit-Debit Support"],
+              [<LuCircleSlash2 key={3} />, "Zero Fees And Zero Interest Period"]
             ].map((e, i) => (
               <p
                 key={i}
@@ -58,6 +54,9 @@ export default function Home() {
               )}
             </ConnectKitButton.Custom>
           </div>
+        </div>
+        <div className="absolute base:bottom-40 md:bottom-4 right-14 flex items-center justify-center dark:invert">
+          <Image src="/landing-stickman.png" alt="landing stickman" width={800} height={800} />
         </div>
       </section>
     </HomeLayout>
