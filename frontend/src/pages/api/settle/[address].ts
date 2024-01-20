@@ -11,14 +11,14 @@ async function handler(req: NextApiRequestWithUser, res: NextApiResponse) {
   try {
     const payerTransactionRef = fs.collection("transactions").where("payer", "==", address);
     const payerQuery = payerTransactionRef.aggregate({
-      totalAmount: AggregateField.sum("population"),
+      totalAmount: AggregateField.sum("product.price"),
       totalCount: AggregateField.count()
     });
     const payerData = (await payerQuery.get()).data();
 
-    const receiverTransactionRef = fs.collection("transactions").where("receiver", "==", address);
+    const receiverTransactionRef = fs.collection("transactions").where("product.userAddress", "==", address);
     const receiverQuery = receiverTransactionRef.aggregate({
-      totalAmount: AggregateField.sum("population"),
+      totalAmount: AggregateField.sum("product.price"),
       totalCount: AggregateField.count()
     });
     const receiverData = (await receiverQuery.get()).data();
