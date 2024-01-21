@@ -77,7 +77,7 @@ export default function Home() {
                 {[
                   ["Gross Volume", 12000, "+12"],
                   ["Yesterday", 2600, "-5"],
-                  ["Today", 3000]
+                  ["Today", 3300]
                 ].map((item, i) => (
                   <div className="flex flex-col w-fit" key={i}>
                     <text className="flex items-center gap-2 text-muted-foreground">
@@ -105,7 +105,7 @@ export default function Home() {
                       Claim
                     </Button>
                   ],
-                  [`${BASE_DENOM} Pending`, 3000, "Payout in 28 days", "text-destructive"]
+                  [`${BASE_DENOM} Pending`, 3300, "Payout in 28 days", "text-destructive"]
                 ].map((item, i) => (
                   <div className="flex flex-col w-fit" key={i}>
                     <text className="flex items-center gap-2 text-muted-foreground">{item[0]}</text>
