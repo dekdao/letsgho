@@ -1,13 +1,12 @@
 // src: https://chakra-ui.com/getting-started/nextjs-guide
 "use client";
-
 import { config } from "@/constants/config";
 import { UserProvider } from "@/hooks/use-user";
 import { HandleOnComplete } from "@/lib/router-events";
 import { ConnectKitProvider } from "connectkit";
-import { GeistSans } from "geist/font/sans";
 import { ThemeProvider } from "next-themes";
 import { WagmiConfig } from "wagmi";
+import { WalletWrapper } from "./wallet-wrapper";
 
 export function Providers({ children }: { children: React.ReactNode }) {
   return (
@@ -21,7 +20,7 @@ export function Providers({ children }: { children: React.ReactNode }) {
         <UserProvider>
           <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
             <HandleOnComplete />
-            {children}
+            <WalletWrapper>{children}</WalletWrapper>
           </ThemeProvider>
         </UserProvider>
       </ConnectKitProvider>
