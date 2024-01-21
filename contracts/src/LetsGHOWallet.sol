@@ -14,12 +14,18 @@ contract LetsGHOWallet {
     constructor(address _gateway, address _owner) {
         gateway = LetsGHOGateway(_gateway);
         owner = _owner;
+        isLocked = true;
     }
 
     function requestUnlock() external {
         require(msg.sender == owner, "LetsGHOWallet: not owner");
         require(isLocked == true, "LetsGHOWallet: locked");
         unlockEpoch = gateway.getEpoch() + 1;
+    }
+
+    function adminClose() external {
+        require(msg.sender == address(gateway), "LetsGHOWallet: not gateway");
+        isLocked = false;
     }
 
     function repay(uint amount) external {
@@ -36,6 +42,7 @@ contract LetsGHOWallet {
             "LetsGHOWallet: not unlocked"
         );
         isLocked = false;
+        gateway.exit(owner);
     }
 
     function pull(uint amount) external {
