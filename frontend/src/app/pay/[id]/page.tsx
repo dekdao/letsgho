@@ -13,7 +13,7 @@ export default function Page({ params }: { params: { id: string } }) {
 
   useEffect(() => {
     setLoading(true);
-    axios.get("http://localhost:3000/api/product/" + params.id).then(({ data }) => {
+    axios.get(`${process.env.NEXT_PUBLIC_ORIGIN_URL}/api/product/` + params.id).then(({ data }) => {
       setProduct(data.data);
     });
     setLoading(false);

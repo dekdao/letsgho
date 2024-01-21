@@ -67,7 +67,7 @@ export function PayDebtDialog() {
               //TODO
             }}
           >
-            Deposit
+            Pay
           </Button>
         </DialogFooter>
       </DialogContent>
