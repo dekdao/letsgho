@@ -7,12 +7,12 @@ import { letsgho_contract_address } from "@/app/wallet-wrapper";
 import { Product } from "@/interfaces/product";
 import { letsgho_abi } from "@/lib/contracts/letsgho-abi";
 import { writeContract, prepareWriteContract } from "@wagmi/core";
-import { gho_contract_address } from "./gho-pay-tab";
 import { sepolia } from "wagmi";
 import { secp256k1 } from "@noble/curves/secp256k1";
 import { hexToNumber, numberToBytes, numberToHex } from "viem/utils";
 import { LuCheck, LuRefreshCw } from "react-icons/lu";
-
+import axios from "axios";
+export const debt_weth_contract_address = "0x22a35DB253f4F6D0029025D6312A3BdAb20C2c6A";
 export function AaveCreditPayTab({ product }: { product: Product }) {
   const [isPaying, setIsPaying] = useState(false);
 
@@ -28,7 +28,7 @@ export function AaveCreditPayTab({ product }: { product: Product }) {
     name: "GHO",
     version: "1",
     chainId: sepolia.id,
-    verifyingContract: gho_contract_address as `0x${string}`
+    verifyingContract: debt_weth_contract_address as `0x${string}`
   };
 
   // set the Permit type parameters
@@ -81,11 +81,25 @@ export function AaveCreditPayTab({ product }: { product: Product }) {
   const sign = () => {
     setIsPaying(true);
     signTypedData();
-    setIsPaying(false);
-    setIsPaid(true);
   };
+  useEffect(() => {
+    if (signature && !isPaid) {
+      axios
+        .post("/api/transaction/pay", {
+          payerAddress: address,
+          productId: product.id,
+          signature
+        })
+        .then(() => {
+          setIsPaying(false);
+          setIsPaid(true);
+        })
+        .catch(() => {
+          setIsPaying(false);
+        });
+    }
+  }, [signature, isPaid, address, product?.id]);
 
-  // useEffect(() => {
   //   const pay = () => {
   //     const { r, s } = secp256k1.Signature.fromCompact(signature!.slice(2, 130));
   //     const v = hexToNumber(`0x${signature!.slice(130)}`);
@@ -105,17 +119,6 @@ export function AaveCreditPayTab({ product }: { product: Product }) {
   //     });
   //     return Promise.resolve();
   //   };
-  //   if (signature && !isPaid) {
-  //     pay()
-  //       .then(() => {
-  //         setIsPaying(false);
-  //         setIsPaid(true);
-  //       })
-  //       .catch(() => {
-  //         setIsPaying(false);
-  //       });
-  //   }
-  // }, [signature]);
 
   const mockData = {
     balance: 276.29

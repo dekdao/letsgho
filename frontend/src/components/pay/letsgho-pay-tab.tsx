@@ -4,7 +4,9 @@ import { HealthFactor } from "./health-factor";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { Product } from "@/interfaces/product";
-import { useAccount, useSignMessage } from "wagmi";
+import { sepolia, useAccount, useSignMessage, useSignTypedData } from "wagmi";
+import { letsgho_contract_address } from "@/app/wallet-wrapper";
+import { gho_contract_address } from "./gho-pay-tab";
 
 export function LetsGhoPayTab({ product }: { product: Product }) {
   const [isPaying, setIsPaying] = useState(false);
@@ -12,23 +14,69 @@ export function LetsGhoPayTab({ product }: { product: Product }) {
   const [isPaid, setIsPaid] = useState(false);
 
   const { address } = useAccount();
-  const { signMessage, isLoading, data: signature } = useSignMessage();
+
+  const deadline = Math.floor(Date.now() / 1e3) + 600;
+  const price = BigInt(product.price * 1e18);
+
+  // set the domain parameters
+  const domain = {
+    name: "GHO",
+    version: "1",
+    chainId: sepolia.id,
+    verifyingContract: gho_contract_address as `0x${string}`
+  };
+
+  // set the Permit type parameters
+  const types = {
+    Permit: [
+      {
+        name: "owner",
+        type: "address"
+      },
+      {
+        name: "spender",
+        type: "address"
+      },
+      {
+        name: "value",
+        type: "uint256"
+      },
+      {
+        name: "nonce",
+        type: "uint256"
+      },
+      {
+        name: "deadline",
+        type: "uint256"
+      }
+    ]
+  };
+
+  // set the Permit type values
+  const message = {
+    owner: address,
+    spender: letsgho_contract_address,
+    value: price,
+    nonce: 69,
+    deadline
+  };
+
+  const {
+    data: signature,
+    variables,
+    signTypedData,
+    reset
+  } = useSignTypedData({
+    domain,
+    message,
+    primaryType: "Permit",
+    types
+  });
 
   const sign = () => {
     setIsPaying(true);
-    signMessage({
-      message: `
-      address: ${address}
-      product: ${product.name}
-      price: ${product.price}
-      id: ${product.id}
-      timestamp: ${Date.now()}
-      chain: sepolia
-      `
-    });
-    setIsPaying(false);
+    signTypedData();
   };
-
   useEffect(() => {
     if (signature && !isPaid) {
       axios

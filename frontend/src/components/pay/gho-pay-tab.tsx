@@ -1,10 +1,12 @@
+import { letsgho_contract_address } from "@/app/wallet-wrapper";
 import { Button } from "../ui/button";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Product } from "@/interfaces/product";
 import { erc20ABI, writeContract, prepareWriteContract, readContract } from "@wagmi/core";
 import { useEffect, useState } from "react";
 import { LuCheck } from "react-icons/lu";
-import { useAccount } from "wagmi";
+import { sepolia, useAccount, useSignTypedData } from "wagmi";
+import axios from "axios";
 export const gho_contract_address = "0xc4bF5CbDaBE595361438F8c6a187bDc330539c60";
 
 interface GhoPayTabProps {
@@ -14,6 +16,7 @@ export function GhoPayTab({ product }: GhoPayTabProps) {
   const { address } = useAccount();
   const [balance, setBalance] = useState<bigint>();
   const [isPaid, setIsPaid] = useState(false);
+  const [isPaying, setIsPaying] = useState(false);
   useEffect(() => {
     const fetchBalance = async () => {
       const result = await readContract({
@@ -30,18 +33,85 @@ export function GhoPayTab({ product }: GhoPayTabProps) {
     }
   }, [address]);
 
-  const handlePayNow = () => {
-    prepareWriteContract({
-      abi: erc20ABI,
-      address: gho_contract_address,
-      functionName: "transfer",
-      args: [product.userAddress as `0x${string}`, BigInt(product.price * 1e18)]
-    }).then((config) => {
-      writeContract(config).then((v) => {
-        setIsPaid(true);
-      });
-    });
+  const deadline = Math.floor(Date.now() / 1e3) + 600;
+  const price = BigInt(product.price * 1e18);
+
+  // set the domain parameters
+  const domain = {
+    name: "GHO",
+    version: "1",
+    chainId: sepolia.id,
+    verifyingContract: gho_contract_address as `0x${string}`
   };
+
+  // set the Permit type parameters
+  const types = {
+    Permit: [
+      {
+        name: "owner",
+        type: "address"
+      },
+      {
+        name: "spender",
+        type: "address"
+      },
+      {
+        name: "value",
+        type: "uint256"
+      },
+      {
+        name: "nonce",
+        type: "uint256"
+      },
+      {
+        name: "deadline",
+        type: "uint256"
+      }
+    ]
+  };
+
+  // set the Permit type values
+  const message = {
+    owner: address,
+    spender: letsgho_contract_address,
+    value: price,
+    nonce: 69,
+    deadline
+  };
+
+  const {
+    data: signature,
+    variables,
+    signTypedData,
+    reset
+  } = useSignTypedData({
+    domain,
+    message,
+    primaryType: "Permit",
+    types
+  });
+
+  const sign = () => {
+    setIsPaying(true);
+    signTypedData();
+  };
+  useEffect(() => {
+    if (signature && !isPaid) {
+      axios
+        .post("/api/transaction/pay", {
+          payerAddress: address,
+          productId: product.id,
+          signature
+        })
+        .then(() => {
+          setIsPaying(false);
+          setIsPaid(true);
+        })
+        .catch(() => {
+          setIsPaying(false);
+        });
+    }
+  }, [signature, isPaid, address, product?.id]);
 
   return (
     <>
@@ -68,7 +138,7 @@ export function GhoPayTab({ product }: GhoPayTabProps) {
           <Button
             disabled={!balance || balance <= BigInt(product.price * 1e18)}
             className="w-[100%] bg-green-400 dark:bg-green-400"
-            onClick={handlePayNow}
+            onClick={sign}
           >
             Pay Now
           </Button>
