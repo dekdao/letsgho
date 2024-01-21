@@ -49,7 +49,7 @@ export default function Home() {
     } else {
       router.push("/merchant");
     }
-  }, [address]);
+  }, [address, router]);
 
   const fetchAndAddProduct = async (id: string) => {
     const res = await axios.get(`/api/product/${id}`);
@@ -101,7 +101,7 @@ export default function Home() {
                     12500,
                     "Available To Payout",
                     "text-muted-foreground",
-                    <Button size="sm" variant="outline" className="mt-2">
+                    <Button key={"1"} size="sm" variant="outline" className="mt-2">
                       Claim
                     </Button>
                   ],
