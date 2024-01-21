@@ -22,7 +22,7 @@ export function AaveCreditPayTab() {
         </div>
       </RadioGroup>
 
-      <Button className="w-[100%] bg-green-400">Pay Now</Button>
+      <Button className="w-[100%] bg-green-400 dark:bg-green-400">Pay Now</Button>
     </div>
   );
 }

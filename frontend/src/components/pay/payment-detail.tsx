@@ -56,7 +56,7 @@ export function PaymentDetail({ product }: { product: Product }) {
                   Choose your payment type...
                 </p>
               </div>
-              <Button className="w-[50%] py-8 bg-green-400" onClick={() => setMode("letsgho")}>
+              <Button className="w-[50%] py-8 bg-green-400 dark:bg-green-400" onClick={() => setMode("letsgho")}>
                 {"Let's GHO Wallet"}
               </Button>
               <Button className="w-[50%]" onClick={() => setMode("gho")}>
