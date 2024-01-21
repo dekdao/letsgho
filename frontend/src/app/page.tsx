@@ -18,7 +18,10 @@ export default function Home() {
             </p>
             <div className="space-x-4">
               <Link href="/merchant/dashboard" className={cn(buttonVariants({ size: "lg" }))}>
-                Get Started
+                Get Started As Merchant
+              </Link>
+              <Link href="/user" className={cn(buttonVariants({ size: "lg" }))}>
+                Get Started As Customer
               </Link>
             </div>
           </div>
@@ -72,8 +75,8 @@ export default function Home() {
         </div>
         <div className="mx-auto text-center md:max-w-[58rem]">
           <p className="leading-normal text-muted-foreground sm:text-lg sm:leading-7">
-            Let{"'"}s GHO: Redefining web3 payments with effortless integration, zero fees, and gasless transactions. Your
-            simple, efficient gateway to the future of digital transactions.
+            Let{"'"}s GHO: Redefining web3 payments with effortless integration, zero fees, and gasless transactions.
+            Your simple, efficient gateway to the future of digital transactions.
           </p>
         </div>
       </section>

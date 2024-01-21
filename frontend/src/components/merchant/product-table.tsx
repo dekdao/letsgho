@@ -35,7 +35,7 @@ export const ProductTable = ({ products }: { products: Product[] }) => {
                 size="sm"
                 variant="outline"
                 onClick={() => {
-                  window.navigator.clipboard.writeText(`${window.location.origin}/pay/${p.id}`);
+                  window?.navigator?.clipboard.writeText(`${window?.location?.origin}/pay/${p.id}`);
                   toast({
                     title: "Copied to clipboard",
                     description: "The link has been copied to your clipboard"
