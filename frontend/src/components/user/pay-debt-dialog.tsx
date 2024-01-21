@@ -10,13 +10,80 @@ import {
   DialogTrigger
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
-import { useState } from "react";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "../ui/select";
+import { useEffect, useState } from "react";
+import { readContract } from "@wagmi/core";
+import { useAccount } from "wagmi";
+import useUser from "@/hooks/use-user";
 
 export function PayDebtDialog() {
-  const debt = 29.12;
-  const balance = 57.33;
+  const [debt, setDebt] = useState(0.0);
+  const [balance, setBalance] = useState(0.0);
   const [amount, setAmount] = useState(0.0);
+
+  const { address } = useAccount();
+  const { ghoWalletAddress } = useUser();
+
+  useEffect(() => {
+    if (ghoWalletAddress) {
+      readContract({
+        abi: [
+          {
+            inputs: [
+              {
+                internalType: "address",
+                name: "",
+                type: "address"
+              }
+            ],
+            name: "balanceOf",
+            outputs: [
+              {
+                internalType: "uint256",
+                name: "",
+                type: "uint256"
+              }
+            ],
+            stateMutability: "view",
+            type: "function"
+          }
+        ],
+        address: "0x67ae46EF043F7A4508BD1d6B94DB6c33F0915844",
+        functionName: "balanceOf",
+        args: [ghoWalletAddress]
+      }).then((v: any) => {
+        setDebt(parseFloat(v.toString()) / 10 ** 18);
+      });
+      readContract({
+        abi: [
+          {
+            inputs: [
+              {
+                internalType: "address",
+                name: "",
+                type: "address"
+              }
+            ],
+            name: "balanceOf",
+            outputs: [
+              {
+                internalType: "uint256",
+                name: "",
+                type: "uint256"
+              }
+            ],
+            stateMutability: "view",
+            type: "function"
+          }
+        ],
+        address: "0xc4bF5CbDaBE595361438F8c6a187bDc330539c60",
+        functionName: "balanceOf",
+        args: [ghoWalletAddress]
+      }).then((v: any) => {
+        setBalance(parseFloat(v.toString()) / 10 ** 18);
+      });
+    }
+  });
+
   return (
     <Dialog>
       <DialogTrigger asChild>
