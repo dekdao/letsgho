@@ -97,7 +97,7 @@ export function PaymentDetail({ product }: { product: Product }) {
 
                 <p className="text-lg my-[30px] lg:text-xl font-medium leading-none text-center">AAVE credit</p>
               </div>
-              <AaveCreditPayTab />
+              <AaveCreditPayTab product={product} />
             </>
           )}
         </div>
