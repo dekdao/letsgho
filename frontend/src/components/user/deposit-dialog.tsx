@@ -26,8 +26,45 @@ export function DepositDialog() {
     address: ghoWalletAddress as `0x${string}`,
     abi: letsgho_wallet_abi,
     functionName: "deposit",
-    args: [asset, BigInt(amount * 1e18)]
+    args: [asset, BigInt((amount || 0) * 10 ** 18)]
   });
+
+  const { write: approve } = useContractWrite({
+    address: asset as `0x${string}`,
+    abi: [
+      {
+        inputs: [
+          {
+            internalType: "address",
+            name: "spender",
+            type: "address"
+          },
+          {
+            internalType: "uint256",
+            name: "amount",
+            type: "uint256"
+          }
+        ],
+        name: "approve",
+        outputs: [
+          {
+            internalType: "bool",
+            name: "",
+            type: "bool"
+          }
+        ],
+        stateMutability: "nonpayable",
+        type: "function"
+      }
+    ],
+    functionName: "approve",
+    args: [ghoWalletAddress, BigInt((amount || 0) * 10 ** 18)]
+  });
+
+  const onApprove = () => {
+    if (!ghoWalletAddress) return;
+    approve();
+  };
 
   const onDeposit = () => {
     if (!ghoWalletAddress) return;
@@ -78,9 +115,7 @@ export function DepositDialog() {
                   <SelectValue placeholder="Select Asset" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="0x1b44F3514812d835EB1BDB0acB33d3fA3351Ee43">ETH</SelectItem>
-                  <SelectItem value="USDC">USDC</SelectItem>
-                  <SelectItem value="USDT">USDT</SelectItem>
+                  <SelectItem value="0xC558DBdd856501FCd9aaF1E62eae57A9F0629a3c">WETH</SelectItem>
                 </SelectContent>
               </Select>
             </div>
@@ -92,13 +127,18 @@ export function DepositDialog() {
               type="number"
               id="amount"
               value={amount}
-              onChange={(v) => setAmount(parseFloat(v.target.value))}
+              onChange={(v) => setAmount(parseFloat(v.target.value ?? 0))}
               className=" col-span-3"
             />
           </div>
         </div>
         <DialogFooter>
-          <Button onClick={onDeposit}>Deposit</Button>
+          <Button onClick={onApprove} disabled={!asset || !amount}>
+            Approve
+          </Button>
+          <Button onClick={onDeposit} disabled={!asset || !amount}>
+            Deposit
+          </Button>
         </DialogFooter>
       </DialogContent>
     </Dialog>

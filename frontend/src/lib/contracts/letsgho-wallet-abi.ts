@@ -1,76 +1,128 @@
 export const letsgho_wallet_abi = [
   {
+    type: "constructor",
     inputs: [
       {
-        internalType: "address",
         name: "_gateway",
-        type: "address"
+        type: "address",
+        internalType: "address"
       },
       {
-        internalType: "address",
         name: "_owner",
-        type: "address"
+        type: "address",
+        internalType: "address"
       }
     ],
-    stateMutability: "nonpayable",
-    type: "constructor"
+    stateMutability: "nonpayable"
   },
   {
-    inputs: [],
-    name: "requestUnlock",
-    outputs: [],
-    stateMutability: "nonpayable",
-    type: "function"
-  },
-  {
+    type: "function",
+    name: "deposit",
     inputs: [
       {
-        internalType: "uint256",
-        name: "amount",
-        type: "uint256"
-      }
-    ],
-    name: "repay",
-    outputs: [],
-    stateMutability: "nonpayable",
-    type: "function"
-  },
-  {
-    inputs: [],
-    name: "unlock",
-    outputs: [],
-    stateMutability: "nonpayable",
-    type: "function"
-  },
-  {
-    inputs: [
-      {
-        internalType: "uint256",
-        name: "amount",
-        type: "uint256"
-      }
-    ],
-    name: "pull",
-    outputs: [],
-    stateMutability: "nonpayable",
-    type: "function"
-  },
-  {
-    inputs: [
-      {
-        internalType: "address",
         name: "asset",
-        type: "address"
+        type: "address",
+        internalType: "address"
       },
       {
-        internalType: "uint256",
         name: "amount",
-        type: "uint256"
+        type: "uint256",
+        internalType: "uint256"
       }
     ],
-    name: "deposit",
     outputs: [],
-    stateMutability: "nonpayable",
-    type: "function"
+    stateMutability: "nonpayable"
+  },
+  {
+    type: "function",
+    name: "gateway",
+    inputs: [],
+    outputs: [
+      {
+        name: "",
+        type: "address",
+        internalType: "contract LetsGHOGateway"
+      }
+    ],
+    stateMutability: "view"
+  },
+  {
+    type: "function",
+    name: "isLocked",
+    inputs: [],
+    outputs: [
+      {
+        name: "",
+        type: "bool",
+        internalType: "bool"
+      }
+    ],
+    stateMutability: "view"
+  },
+  {
+    type: "function",
+    name: "owner",
+    inputs: [],
+    outputs: [
+      {
+        name: "",
+        type: "address",
+        internalType: "address"
+      }
+    ],
+    stateMutability: "view"
+  },
+  {
+    type: "function",
+    name: "pull",
+    inputs: [
+      {
+        name: "amount",
+        type: "uint256",
+        internalType: "uint256"
+      }
+    ],
+    outputs: [],
+    stateMutability: "nonpayable"
+  },
+  {
+    type: "function",
+    name: "repay",
+    inputs: [
+      {
+        name: "amount",
+        type: "uint256",
+        internalType: "uint256"
+      }
+    ],
+    outputs: [],
+    stateMutability: "nonpayable"
+  },
+  {
+    type: "function",
+    name: "requestUnlock",
+    inputs: [],
+    outputs: [],
+    stateMutability: "nonpayable"
+  },
+  {
+    type: "function",
+    name: "unlock",
+    inputs: [],
+    outputs: [],
+    stateMutability: "nonpayable"
+  },
+  {
+    type: "function",
+    name: "unlockEpoch",
+    inputs: [],
+    outputs: [
+      {
+        name: "",
+        type: "uint256",
+        internalType: "uint256"
+      }
+    ],
+    stateMutability: "view"
   }
 ];
