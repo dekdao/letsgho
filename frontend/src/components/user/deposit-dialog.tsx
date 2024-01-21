@@ -12,11 +12,27 @@ import {
 import { Input } from "@/components/ui/input";
 import { useState } from "react";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "../ui/select";
+import useUser from "@/hooks/use-user";
+import { useContractWrite } from "wagmi";
+import { letsgho_wallet_abi } from "@/lib/contracts/letsgho-wallet-abi";
 
 export function DepositDialog() {
   const [chain, setChain] = useState<string | undefined>();
   const [asset, setAsset] = useState<string | undefined>();
   const [amount, setAmount] = useState(0.0);
+  const { ghoWalletAddress } = useUser();
+
+  const { write } = useContractWrite({
+    address: ghoWalletAddress as `0x${string}`,
+    abi: letsgho_wallet_abi,
+    functionName: "deposit",
+    args: [asset, BigInt(amount * 1e18)]
+  });
+
+  const onDeposit = () => {
+    if (!ghoWalletAddress) return;
+    write();
+  };
 
   return (
     <Dialog>
@@ -62,7 +78,7 @@ export function DepositDialog() {
                   <SelectValue placeholder="Select Asset" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="ETH">ETH</SelectItem>
+                  <SelectItem value="0x1b44F3514812d835EB1BDB0acB33d3fA3351Ee43">ETH</SelectItem>
                   <SelectItem value="USDC">USDC</SelectItem>
                   <SelectItem value="USDT">USDT</SelectItem>
                 </SelectContent>
@@ -82,13 +98,7 @@ export function DepositDialog() {
           </div>
         </div>
         <DialogFooter>
-          <Button
-            onClick={() => {
-              //TODO
-            }}
-          >
-            Deposit
-          </Button>
+          <Button onClick={onDeposit}>Deposit</Button>
         </DialogFooter>
       </DialogContent>
     </Dialog>
