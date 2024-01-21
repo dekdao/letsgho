@@ -30,6 +30,8 @@ interface UserContextProps {
   isCanceled: boolean;
   setIsCanceled: React.Dispatch<React.SetStateAction<boolean>>;
   handleChangeUserData: (data: UserData) => void;
+  ghoWalletAddress: string;
+  setGhoWalletAddress: React.Dispatch<React.SetStateAction<string>>;
 }
 
 const UserContext = createContext<UserContextProps>({
@@ -44,6 +46,8 @@ const UserContext = createContext<UserContextProps>({
   isCanceled: false,
   setIsCanceled: () => null,
   handleChangeUserData: () => null,
+  ghoWalletAddress: "",
+  setGhoWalletAddress: () => null,
 });
 
 export default function useUser() {
@@ -59,6 +63,7 @@ export function UserProvider({ children }: { children?: React.ReactNode }) {
   const [userData, setUserData] = useState<UserData | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [isCanceled, setIsCanceled] = useState<boolean>(false);
+  const [ghoWalletAddress, setGhoWalletAddress] = useState<string>("");
 
   const handleChangeUserData = (data: UserData) => {
     if (data.stripeCurrentPeriodEnd) {
@@ -133,6 +138,8 @@ export function UserProvider({ children }: { children?: React.ReactNode }) {
     isCanceled,
     setIsCanceled,
     handleChangeUserData,
+    ghoWalletAddress,
+    setGhoWalletAddress,
   };
   return <UserContext.Provider value={value}>{children}</UserContext.Provider>;
 }
