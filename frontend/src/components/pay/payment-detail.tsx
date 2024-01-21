@@ -15,23 +15,6 @@ import { Product } from "@/interfaces/product";
 export function PaymentDetail({ product }: { product: Product }) {
   const { address, isConnecting, isReconnecting } = useAccount();
   const [mode, setMode] = useState<"default" | "letsgho" | "gho" | "aave">("default");
-  const [isPaying, setIsPaying] = useState(false);
-
-  const mockPay = async () => {
-    setIsPaying(true);
-    axios
-      .post("/api/transaction/pay", {
-        payerAddress: address,
-        productId: product.id,
-        signature: "mock"
-      })
-      .then(() => {
-        setIsPaying(false);
-      })
-      .catch(() => {
-        setIsPaying(false);
-      });
-  };
 
   return (
     <div className="h-[100%]">
@@ -65,14 +48,6 @@ export function PaymentDetail({ product }: { product: Product }) {
               <Button className="w-[50%]" onClick={() => setMode("aave")}>
                 AAVE credit
               </Button>
-              <Button className="w-[50%]" onClick={mockPay} disabled={isPaying}>
-                {isPaying && (
-                  <>
-                    <LuRefreshCw className="mr-2 h-4 w-4 animate-spin" />{" "}
-                  </>
-                )}
-                Mock Pay
-              </Button>
             </>
           )}
 
@@ -90,7 +65,7 @@ export function PaymentDetail({ product }: { product: Product }) {
                   {"Let's GHO Wallet"}
                 </p>
               </div>
-              <LetsGhoPayTab />
+              <LetsGhoPayTab product={product} />
             </>
           )}
 
@@ -106,7 +81,7 @@ export function PaymentDetail({ product }: { product: Product }) {
 
                 <p className="text-lg my-[30px] lg:text-xl font-medium leading-none text-center">Pay with $GHO</p>
               </div>
-              <GhoPayTab />
+              <GhoPayTab product={product} />
             </>
           )}
 
