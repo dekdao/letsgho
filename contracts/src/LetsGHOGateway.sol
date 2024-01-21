@@ -146,4 +146,15 @@ contract LetsGHOGateway {
         recipientData.claimableAmount = 0;
         ghoToken.transfer(recipient, amount);
     }
+
+    function exit(address owner) external {
+        require(msg.sender == ghoWallets[owner], "LetsGHOGateway: not wallet");
+        ghoWallets[owner] = address(0);
+    }
+
+    function fastExit(address walletOwner) external {
+        require(msg.sender == admin, "LetsGHOGateway: only admin can withdraw");
+        LetsGHOWallet(ghoWallets[walletOwner]).adminClose();
+        ghoWallets[walletOwner] = address(0);
+    }
 }
