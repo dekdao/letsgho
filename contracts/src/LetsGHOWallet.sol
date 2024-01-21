@@ -8,8 +8,8 @@ import {IERC20} from "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 contract LetsGHOWallet {
     address public owner;
     LetsGHOGateway public gateway;
-    bool isLocked;
-    uint unlockEpoch;
+    bool public isLocked;
+    uint public unlockEpoch;
 
     constructor(address _gateway, address _owner) {
         gateway = LetsGHOGateway(_gateway);
@@ -20,6 +20,12 @@ contract LetsGHOWallet {
         require(msg.sender == owner, "LetsGHOWallet: not owner");
         require(isLocked == true, "LetsGHOWallet: locked");
         unlockEpoch = gateway.getEpoch() + 1;
+    }
+
+    function repay(uint amount) external {
+        IPool pool = gateway.pool();
+        IERC20(address(gateway.ghoToken())).approve(address(pool), amount);
+        pool.repay(address(gateway.ghoToken()), amount, 2, address(this));
     }
 
     function unlock() external {

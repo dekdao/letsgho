@@ -15,8 +15,8 @@ contract LetsGHOGateway {
         uint16 requestClosingOn;
         bool cleared;
     }
-    mapping(address => address) ghoWallets;
-    mapping(address => RecipientData) recipients;
+    mapping(address => address) public ghoWallets;
+    mapping(address => RecipientData) public recipients;
     ERC20Permit public immutable ghoToken;
     IPool public immutable pool;
     ICreditDelegationToken public immutable debtToken;
