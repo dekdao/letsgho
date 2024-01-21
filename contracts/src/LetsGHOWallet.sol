@@ -1,24 +1,51 @@
 // SPDX-License-Identifier: UNLICENSED
 pragma solidity ^0.8.13;
+import {LetsGHOGateway} from "./LetsGHOGateway.sol";
+import {ICreditDelegationToken} from "@aave-v3-core/interfaces/ICreditDelegationToken.sol";
+import {IPool} from "@aave-v3-core/interfaces/IPool.sol";
+import {IERC20} from "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 
 contract LetsGHOWallet {
     address public owner;
-    address public gateway;
+    LetsGHOGateway public gateway;
     bool isLocked;
-    uint withdrawEpoch;
+    uint unlockEpoch;
 
     constructor(address _gateway, address _owner) {
-        gateway = _gateway;
+        gateway = LetsGHOGateway(_gateway);
         owner = _owner;
     }
 
-    function requestWithdrawal() external {}
+    function requestUnlock() external {
+        require(msg.sender == owner, "LetsGHOWallet: not owner");
+        require(isLocked == true, "LetsGHOWallet: locked");
+        unlockEpoch = gateway.getEpoch() + 1;
+    }
 
-    function withdraw() external {}
+    function unlock() external {
+        require(msg.sender == owner, "LetsGHOWallet: not owner");
+        require(isLocked == true, "LetsGHOWallet: locked");
+        require(
+            unlockEpoch <= gateway.getEpoch(),
+            "LetsGHOWallet: not unlocked"
+        );
+        isLocked = false;
+    }
 
-    function settle() external {}
+    function pull(uint amount) external {
+        require(msg.sender == address(gateway), "LetsGHOWallet: not gateway");
+        ICreditDelegationToken(gateway.debtToken()).approveDelegation(
+            address(gateway),
+            amount
+        );
+    }
 
-    function deposit() external {}
+    function deposit(address asset, uint amount) external {
+        IERC20(asset).transferFrom(msg.sender, address(this), amount);
+        IPool pool = gateway.pool();
+        IERC20(asset).approve(address(pool), amount);
+        pool.supply(asset, amount, address(this), 0);
+    }
 
     // wallet become normal AA after unlock
     function execute(
