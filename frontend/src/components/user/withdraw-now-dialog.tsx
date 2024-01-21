@@ -26,7 +26,7 @@ export function WithdrawNowDialog() {
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
           <DialogTitle>Withdraw NOW 💯</DialogTitle>
-          <DialogDescription>Withdraw collateral from your Let's GHO👻 Wallet NOW</DialogDescription>
+          <DialogDescription>Withdraw collateral from your Let{"'"}s GHO👻 Wallet NOW</DialogDescription>
         </DialogHeader>
         <div className="grid gap-4 py-4">
           <div className="grid grid-cols-4 items-center gap-4">

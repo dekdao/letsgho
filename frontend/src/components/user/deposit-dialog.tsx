@@ -27,7 +27,7 @@ export function DepositDialog() {
         <DialogHeader>
           <DialogTitle>Deposit</DialogTitle>
           <DialogDescription>
-            Make a deposit with your preferred currency into your Let's GHO👻 Wallet
+            Make a deposit with your preferred currency into your Let{"'"}s GHO👻 Wallet
           </DialogDescription>
         </DialogHeader>
         <div className="grid gap-4 py-4">

@@ -72,7 +72,7 @@ export default function Home() {
         </div>
         <div className="mx-auto text-center md:max-w-[58rem]">
           <p className="leading-normal text-muted-foreground sm:text-lg sm:leading-7">
-            LetsGHO: Redefining web3 payments with effortless integration, zero fees, and gasless transactions. Your
+            Let{"'"}s GHO: Redefining web3 payments with effortless integration, zero fees, and gasless transactions. Your
             simple, efficient gateway to the future of digital transactions.
           </p>
         </div>

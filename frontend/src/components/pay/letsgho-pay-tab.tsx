@@ -8,7 +8,7 @@ export function LetsGhoPayTab() {
   };
   return (
     <div className="flex flex-col gap-4 items-center w-[100%]">
-      <div className="flex  w-[100%] justify-start text-md">Your Let's GHO Credit</div>
+      <div className="flex  w-[100%] justify-start text-md">Your Let{"'"}s GHO Credit</div>
       <h1 className="text-4xl font-heading">${mockData.credit}</h1>
       <div className="flex flex-col items-center">
         <div className="text-md">Credit Health Factor</div>

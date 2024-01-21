@@ -23,7 +23,7 @@ export default function Home() {
     <HomeLayout hideNav>
       <section className="container relative md:px-56 space-y-6 pb-8 pt-28 min-h-[100vh] h-full w-full flex base:justify-center md:justify-start">
         <div className="flex max-w-[50rem] flex-col gap-4">
-          <h1 className="font-heading text-3xl sm:text-5xl md:text-6xl lg:text-7xl font-bold">Lets GHO Merchant</h1>
+          <h1 className="font-heading text-3xl sm:text-5xl md:text-6xl lg:text-7xl font-bold">Let{"'"}s GHO Merchant</h1>
           <div className="flex flex-wrap gap-x-4 gap-y-2">
             {[
               [<LuDollarSign key={1} />, "Gasless Payment"],

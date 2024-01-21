@@ -27,7 +27,7 @@ export function WithdrawFreeDialog() {
         <DialogHeader>
           <DialogTitle>Withdraw FREE 🌱</DialogTitle>
           <DialogDescription>
-            Withdraw collateral from your Let's GHO👻 Wallet without transaction fee
+            Withdraw collateral from your Let{"'"}GHO👻 Wallet without transaction fee
           </DialogDescription>
         </DialogHeader>
         <div className="grid gap-4 py-4">
